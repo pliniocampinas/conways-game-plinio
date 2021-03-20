@@ -1,21 +1,32 @@
 <template>
   <div class="app-page">
+
     <h1>Conway's Game of Life</h1>
+
     <div class="app-conteudo">
 
-      <FormGerarTabuleiro @click-gerar="gerarTabuleiro"/>
-
-      <TabuleiroDaVida/>
-
-      <ControlesTabuleiro
-        :pausado="pausado"
-        :segundosTimer="segundosTimer"
-        @play-pause-click="playPauseClick"
-        @reset-click="resetClick"
-        @selecionar-loaf="selecionarLoaf"
-        @selecionar-pulsar="selecionarPulsar"
-        @selecionar-glider="selecionarGlider"
+      <FormGerarTabuleiro
+        @gerar-click="gerarTabuleiro"
+        class="app-mb-5 app-mx-auto"
       />
+
+      <div class="app-conteudo-tabuleiro">
+        <TabuleiroDaVida
+          :tabuleiro="tabuleiro"
+          @cell-click="cellClick"
+        />
+
+        <ControlesTabuleiro
+          :pausado="pausado"
+          :segundosTimer="segundosTimer"
+          @play-pause-click="playPauseClick"
+          @reset-click="resetClick"
+          @selecionar-loaf="selecionarLoaf"
+          @selecionar-pulsar="selecionarPulsar"
+          @selecionar-glider="selecionarGlider"
+        />
+      </div>
+
     </div>
   </div>
 </template>
@@ -42,12 +53,16 @@ export default {
     segundosTimer: {
       type: Number,
       default: 0
+    },
+    tabuleiro: {
+      type: Object,
+      default: null
     }
   },
 
   methods: {
-    gerarTabuleiro() {
-      console.log('gerarTabuleiro')
+    gerarTabuleiro(linhas, colunas) {
+      console.log('gerarTabuleiro', linhas, colunas)
     },
     playPauseClick() {
       console.log('playPauseClick')
@@ -64,6 +79,9 @@ export default {
     selecionarGlider() {
       console.log('selecionarGlider')
     },
+    cellClick() {
+      console.log('cellClick')
+    }
   }
 }
 </script>
@@ -78,15 +96,32 @@ export default {
 }
 
 .app-page {
-  padding-top: 40px;
+  padding-top: 30px;
   padding-left: 20px;
   padding-right: 20px;
-  padding-bottom: 40px;
+  padding-bottom: 30px;
 }
 
 .app-conteudo {
   max-width: 700px;
   width: 100%;
   margin: auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
+
+.app-mb-5 {
+  margin-bottom: 30px;
+}
+
+.app-my-1 {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.app-mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 </style>
