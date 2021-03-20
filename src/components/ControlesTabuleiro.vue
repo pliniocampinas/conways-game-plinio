@@ -8,12 +8,12 @@
 
     <BotaoPlayPause
       :pausado="pausado"
-      @click="playPauseClick"
+      @click="$emit('play-pause-click')"
       class="controles-tabuleiro-item"
     />
 
     <BotaoReset 
-      @click="resetClick"
+      @click="$emit('reset-click')"
       class="controles-tabuleiro-item"
     />
 

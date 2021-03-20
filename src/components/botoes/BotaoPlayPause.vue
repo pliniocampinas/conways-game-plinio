@@ -44,7 +44,6 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  left: 1px;
 }
 .botao-play-pause:hover > * {
   color: white;
