@@ -54,15 +54,6 @@ export default {
       type: Number,
       default: 0
     }
-  },
-
-  methods: {
-    playPauseClick() {
-      console.log('playPauseClick')
-    },
-    resetClick() {
-      console.log('resetClick')
-    }
   }
 }
 </script>

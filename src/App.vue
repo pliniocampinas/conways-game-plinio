@@ -7,7 +7,15 @@
 
       <TabuleiroDaVida/>
 
-      <ControlesTabuleiro />
+      <ControlesTabuleiro
+        :pausado="pausado"
+        :segundosTimer="segundosTimer"
+        @play-pause-click="playPauseClick"
+        @reset-click="resetClick"
+        @selecionar-loaf="selecionarLoaf"
+        @selecionar-pulsar="selecionarPulsar"
+        @selecionar-glider="selecionarGlider"
+      />
     </div>
   </div>
 </template>
@@ -19,16 +27,43 @@ import ControlesTabuleiro from './components/ControlesTabuleiro.vue'
 
 export default {
   name: 'App',
+
   components: {
     FormGerarTabuleiro,
     TabuleiroDaVida,
     ControlesTabuleiro,
   },
 
+  props: {
+    pausado: {
+      type: Boolean,
+      default: true
+    },
+    segundosTimer: {
+      type: Number,
+      default: 0
+    }
+  },
+
   methods: {
     gerarTabuleiro() {
       console.log('gerarTabuleiro')
-    }
+    },
+    playPauseClick() {
+      console.log('playPauseClick')
+    },
+    resetClick() {
+      console.log('resetClick')
+    },
+    selecionarLoaf() {
+      console.log('selecionarLoaf')
+    },
+    selecionarPulsar() {
+      console.log('selecionarPulsar')
+    },
+    selecionarGlider() {
+      console.log('selecionarGlider')
+    },
   }
 }
 </script>
