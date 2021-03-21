@@ -11,7 +11,7 @@
       />
 
       <div class="app-conteudo-tabuleiro">
-        <TabuleiroDaVida
+        <Tabuleiro
           :tabuleiro="tabuleiro"
           @cell-click="cellClick"
         />
@@ -33,7 +33,7 @@
 
 <script>
 import FormGerarTabuleiro from './components/FormGerarTabuleiro.vue'
-import TabuleiroDaVida from './components/TabuleiroDaVida.vue'
+import Tabuleiro from './components/Tabuleiro.vue'
 import ControlesTabuleiro from './components/ControlesTabuleiro.vue'
 
 export default {
@@ -41,7 +41,7 @@ export default {
 
   components: {
     FormGerarTabuleiro,
-    TabuleiroDaVida,
+    Tabuleiro,
     ControlesTabuleiro,
   },
 
@@ -53,11 +53,17 @@ export default {
     segundosTimer: {
       type: Number,
       default: 0
-    },
-    tabuleiro: {
-      type: Object,
-      default: null
     }
+  },
+  
+  data() {
+    return {
+      tabuleiro: null
+    }
+  },
+
+  created() {
+    this.iniciarTabuleiro()
   },
 
   methods: {
@@ -79,8 +85,24 @@ export default {
     selecionarGlider() {
       console.log('selecionarGlider')
     },
-    cellClick() {
-      console.log('cellClick')
+    cellClick(coordenadas) {
+      console.log('cellClick', coordenadas)
+    },
+    iniciarTabuleiro() {
+      const tabuleiro = []
+
+      const linhasPadrao = 12
+      const colunasPadrao = 12
+
+      for (let linha = 0; linha < linhasPadrao; linha++) {
+        const novaLinha = []
+        for (let coluna = 0; coluna < colunasPadrao; coluna++) {
+          novaLinha.push(0)
+        }
+        tabuleiro.push(novaLinha)
+      }
+
+      this.tabuleiro = tabuleiro
     }
   }
 }

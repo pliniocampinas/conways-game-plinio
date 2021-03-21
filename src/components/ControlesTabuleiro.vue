@@ -6,14 +6,14 @@
       class="controles-tabuleiro-item"
     />
 
-    <BotaoPlayPause
-      :pausado="pausado"
-      @click="$emit('play-pause-click')"
+    <BotaoReset 
+      @click="$emit('reset-click')"
       class="controles-tabuleiro-item"
     />
 
-    <BotaoReset 
-      @click="$emit('reset-click')"
+    <BotaoPlayPause
+      :pausado="pausado"
+      @click="$emit('play-pause-click')"
       class="controles-tabuleiro-item"
     />
 
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import TimerDisplay from '@/components/TimerDisplay.vue'
 import BotaoPlayPause from '@/components/botoes/BotaoPlayPause.vue'
 import BotaoReset from '@/components/botoes/BotaoReset.vue'
 import Dropdown from '@/components/botoes/Dropdown.vue'
@@ -39,6 +40,7 @@ export default {
   name: 'ControlesTabuleiro',
 
   components: {
+    TimerDisplay,
     BotaoPlayPause,
     BotaoReset,
     Dropdown,
