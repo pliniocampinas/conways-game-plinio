@@ -5,13 +5,15 @@
   >
 
     <InputNumber 
-      label="Linhas" 
+      label="Linhas"
+      :maxNumber="100"
       class="app-my-1"
       v-model="linhas"
     />
 
     <InputNumber 
-      label="Colunas" 
+      label="Colunas"
+      :maxNumber="100"
       class="app-my-1"
       v-model="colunas"
     />

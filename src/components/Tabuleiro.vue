@@ -1,16 +1,16 @@
 <template>
-  <div class="tabuleiro">
+  <div class="tabuleiro" :style="dimensoesTabuleiro">
     <TabuleiroLinha
       v-for="(linhas, i) in tabuleiro"
       :altura="pixelsCelula"
       :key="i"
     >
       <TabuleiroCelula
-        v-for="(celulas, j) in linhas"
+        v-for="(celula, j) in linhas"
         @click="$emit('cell-click', {x: i, y: j})"
         :key="j"
         :pixels="pixelsCelula"
-        :estaViva="true"
+        :estaViva="celula"
       />
     </TabuleiroLinha>
   </div>
@@ -45,9 +45,11 @@ export default {
         return 8
       }
       const numeroDeColunas = this.tabuleiro[0].length
-      console.log('this.larguraTabuleiro/numeroDeColunas', this.larguraTabuleiro/numeroDeColunas)
       return this.larguraTabuleiro/numeroDeColunas
-    }
+    },
+    dimensoesTabuleiro() {
+      return `width: ${this.larguraTabuleiro}px; height: ${this.larguraTabuleiro}px;`
+    },
   }
 }
 </script>
@@ -55,8 +57,6 @@ export default {
 <style scoped>
 .tabuleiro {
   border: 1px solid black;
-  width: 310px;
-  height: 300px;
-  box-sizing: border-box;
+  padding: 4px;
 }
 </style>

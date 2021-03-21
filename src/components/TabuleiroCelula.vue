@@ -27,6 +27,14 @@ export default {
 .tabuleiro-celula {
   box-sizing: border-box;
   display: inline-block;
-  border: 1px solid black;
+  border: 1px solid #000;
+  background-color: #fff;
 }
+  .tabuleiro-celula:hover {
+    background-color: #eee;
+  }
+  .tabuleiro-celula.viva {
+    border: 1px solid #fff;
+    background-color: #000;
+  }
 </style>

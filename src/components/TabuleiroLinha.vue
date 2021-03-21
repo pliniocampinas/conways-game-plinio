@@ -24,5 +24,6 @@ export default {
 .tabuleiro-linha {
   box-sizing: border-box;
   width: 100%;
+  display: flex;
 }
 </style>

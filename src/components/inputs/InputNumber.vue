@@ -6,6 +6,7 @@
       @input="$emit('update:modelValue', Number($event.target.value))"
       type="number"
       class="input-number-input"
+      :max="maxNumber"
     >
   </label>
 </template>
@@ -21,6 +22,10 @@ export default {
       default: ''
     },
     modelValue: {
+      type: Number,
+      default: 0
+    },
+    maxNumber: {
       type: Number,
       default: 0
     }

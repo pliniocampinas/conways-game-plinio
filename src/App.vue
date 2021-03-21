@@ -13,7 +13,9 @@
       <div class="app-conteudo-tabuleiro">
         <Tabuleiro
           :tabuleiro="tabuleiro"
+          :larguraTabuleiro="500"
           @cell-click="cellClick"
+          class="app-mx-auto"
         />
 
         <ControlesTabuleiro
@@ -63,12 +65,13 @@ export default {
   },
 
   created() {
-    this.iniciarTabuleiro()
+    this.iniciarTabuleiro(12, 12)
   },
 
   methods: {
     gerarTabuleiro(linhas, colunas) {
       console.log('gerarTabuleiro', linhas, colunas)
+      this.iniciarTabuleiro(linhas, colunas)
     },
     playPauseClick() {
       console.log('playPauseClick')
@@ -87,17 +90,15 @@ export default {
     },
     cellClick(coordenadas) {
       console.log('cellClick', coordenadas)
+      this.tabuleiro[coordenadas.x][coordenadas.y] = !this.tabuleiro[coordenadas.x][coordenadas.y]
     },
-    iniciarTabuleiro() {
+    iniciarTabuleiro(nroDeLinhas, nroDecolunas) {
       const tabuleiro = []
 
-      const linhasPadrao = 12
-      const colunasPadrao = 12
-
-      for (let linha = 0; linha < linhasPadrao; linha++) {
+      for (let linha = 0; linha < nroDeLinhas; linha++) {
         const novaLinha = []
-        for (let coluna = 0; coluna < colunasPadrao; coluna++) {
-          novaLinha.push(0)
+        for (let coluna = 0; coluna < nroDecolunas; coluna++) {
+          novaLinha.push(false)
         }
         tabuleiro.push(novaLinha)
       }
