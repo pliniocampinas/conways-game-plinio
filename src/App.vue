@@ -12,7 +12,7 @@
 
       <div class="app-conteudo-tabuleiro">
         <Tabuleiro
-          :tabuleiro="tabuleiro"
+          :tabuleiro="linhasTabuleiro"
           :larguraTabuleiro="500"
           @cell-click="cellClick"
           class="app-mx-auto"
@@ -37,6 +37,7 @@
 import FormGerarTabuleiro from './components/FormGerarTabuleiro.vue'
 import Tabuleiro from './components/Tabuleiro.vue'
 import ControlesTabuleiro from './components/ControlesTabuleiro.vue'
+import TabuleiroController from '@/controllers/TabuleiroController'
 
 export default {
   name: 'App',
@@ -47,64 +48,51 @@ export default {
     ControlesTabuleiro,
   },
 
-  props: {
-    pausado: {
-      type: Boolean,
-      default: true
-    },
-    segundosTimer: {
-      type: Number,
-      default: 0
-    }
-  },
-  
   data() {
     return {
-      tabuleiro: null
+      linhasTabuleiro: null,
+      tabuleiroController: null,
+    }
+  },
+
+  computed: {
+    segundosTimer() {
+      return this.tabuleiroController?.segundosTimer || 0
+    },
+    pausado() {
+      return this.tabuleiroController?.pausado
     }
   },
 
   created() {
-    this.iniciarTabuleiro(12, 12)
+    this.tabuleiroController = new TabuleiroController()
+    this.tabuleiroController.gerarTabuleiro(25, 25)
+    this.linhasTabuleiro = this.tabuleiroController.tabuleiro.linhas
   },
 
   methods: {
     gerarTabuleiro(linhas, colunas) {
-      console.log('gerarTabuleiro', linhas, colunas)
-      this.iniciarTabuleiro(linhas, colunas)
+      this.tabuleiroController.gerarTabuleiro(linhas, colunas)
+      this.linhasTabuleiro = this.tabuleiroController.tabuleiro.linhas
     },
     playPauseClick() {
-      console.log('playPauseClick')
+      this.tabuleiroController.playPauseClick()
     },
     resetClick() {
-      console.log('resetClick')
+      this.tabuleiroController.resetClick()
     },
     selecionarLoaf() {
-      console.log('selecionarLoaf')
+      this.tabuleiroController.selecionarLoaf()
     },
     selecionarPulsar() {
-      console.log('selecionarPulsar')
+      this.tabuleiroController.selecionarPulsar()
     },
     selecionarGlider() {
-      console.log('selecionarGlider')
+      this.tabuleiroController.selecionarGlider()
     },
     cellClick(coordenadas) {
-      console.log('cellClick', coordenadas)
-      this.tabuleiro[coordenadas.x][coordenadas.y] = !this.tabuleiro[coordenadas.x][coordenadas.y]
+      this.tabuleiroController.cellClick(coordenadas.x, coordenadas.y)
     },
-    iniciarTabuleiro(nroDeLinhas, nroDecolunas) {
-      const tabuleiro = []
-
-      for (let linha = 0; linha < nroDeLinhas; linha++) {
-        const novaLinha = []
-        for (let coluna = 0; coluna < nroDecolunas; coluna++) {
-          novaLinha.push(false)
-        }
-        tabuleiro.push(novaLinha)
-      }
-
-      this.tabuleiro = tabuleiro
-    }
   }
 }
 </script>
