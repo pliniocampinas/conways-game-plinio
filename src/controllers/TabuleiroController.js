@@ -92,7 +92,6 @@ export default class TabuleiroController {
     }
 
     this.segundosTimer++
-    console.log('_nextTick segundosTimer', this.segundosTimer)
   }
 
   _proximoEstado(linha, coluna) {
@@ -106,10 +105,32 @@ export default class TabuleiroController {
       this.tabuleiro.getCell(linha-1, coluna),
       this.tabuleiro.getCell(linha-1, coluna-1),
     ]
+    const vivo = true
+    const morto = false
 
-    console.log('adjacentes', adjacentes)
+    const estadoAtual = this.tabuleiro.getCell(linha, coluna)
+    const adjacentesVivos = adjacentes.filter(estado => estado === vivo)
 
-    return !this.tabuleiro.linhas[linha][coluna]
+    if(estadoAtual == vivo) {
+      // Regra 1 underpopulation
+      if(adjacentesVivos.length < 2) {
+        return morto
+      }
+      // Regra 2 next generation
+      if(adjacentesVivos.length === 2 || adjacentesVivos.length === 3) {
+        return vivo
+      }
+      // Regra 3 overpopulation
+      if(adjacentesVivos.length> 3) {
+        return morto
+      }
+    }
+    // Regra 4 reproduction
+    if(adjacentesVivos.length == 3) {
+      return vivo
+    }
+
+    return morto
   }
 
 }
@@ -152,10 +173,9 @@ class Tabuleiro {
     let linhaPossivel = linha > 0 && linha < this.numeroLinhas
     let colunaPossivel = coluna > 0 && coluna < this.numeroColunas
     if(!linhaPossivel || !colunaPossivel) {
+      // Se é um valor na 'borda' do tabuleiro, considera como morto
       return false
     }
-    return this.tabuleiro.linhas[linha][coluna]
+    return this.linhas[linha][coluna]
   }
-
-  // getCelu
 }

@@ -62,7 +62,6 @@ export default {
 
 <style scoped>
 .controles-tabuleiro {
-  border: 1px solid black;
   padding: 5px 8px;
 }
 
