@@ -1,7 +1,6 @@
 export default class TabuleiroController {
   constructor() {
     this.tabuleiro = null
-    this.novoTabuleiro = null
     this.numeroLinhasTabuleiro = 0
     this.numeroColunasTabuleiro = 0
 
@@ -67,9 +66,50 @@ export default class TabuleiroController {
 
   _startTimer() {
     this.timer = setInterval(() => {
-      this.segundosTimer++
-      console.log('segundosTimer', this.segundosTimer)
+      this._nextTick()
     }, this.tick)
+  }
+
+  _nextTick() {
+    // Calcular novo tabuleiro
+    const linhasTabuleiro = []
+
+    for (let linha = 0; linha < this.tabuleiro?.numeroLinhas; linha++) {
+      const novaLinha = []
+      for (let coluna = 0; coluna < this.tabuleiro?.numeroColunas; coluna++) {
+        novaLinha.push(this._proximoEstado(linha, coluna))
+      }
+      linhasTabuleiro.push(novaLinha)
+    }
+
+    // Copiar novo tabuleiro para velho
+    for (let linha = 0; linha < this.tabuleiro?.numeroLinhas; linha++) {
+      const novaLinha = []
+      for (let coluna = 0; coluna < this.tabuleiro?.numeroColunas; coluna++) {
+        this.tabuleiro.setCell(linha, coluna, linhasTabuleiro[linha][coluna])
+      }
+      linhasTabuleiro.push(novaLinha)
+    }
+
+    this.segundosTimer++
+    console.log('_nextTick segundosTimer', this.segundosTimer)
+  }
+
+  _proximoEstado(linha, coluna) {
+    const adjacentes = [
+      this.tabuleiro.getCell(linha+1, coluna+1),
+      this.tabuleiro.getCell(linha+1, coluna),
+      this.tabuleiro.getCell(linha+1, coluna-1),
+      this.tabuleiro.getCell(linha, coluna+1),
+      this.tabuleiro.getCell(linha, coluna-1),
+      this.tabuleiro.getCell(linha-1, coluna+1),
+      this.tabuleiro.getCell(linha-1, coluna),
+      this.tabuleiro.getCell(linha-1, coluna-1),
+    ]
+
+    console.log('adjacentes', adjacentes)
+
+    return !this.tabuleiro.linhas[linha][coluna]
   }
 
 }
@@ -103,4 +143,19 @@ class Tabuleiro {
   toogleCell(linha, coluna) {
     this.linhas[linha][coluna] = !this.linhas[linha][coluna]
   }
+
+  setCell(linha, coluna, value) {
+    this.linhas[linha][coluna] = value
+  }
+
+  getCell(linha, coluna) {
+    let linhaPossivel = linha > 0 && linha < this.numeroLinhas
+    let colunaPossivel = coluna > 0 && coluna < this.numeroColunas
+    if(!linhaPossivel || !colunaPossivel) {
+      return false
+    }
+    return this.tabuleiro.linhas[linha][coluna]
+  }
+
+  // getCelu
 }
