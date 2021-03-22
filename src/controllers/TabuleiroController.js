@@ -1,3 +1,5 @@
+import { gliderPreset } from '@/presets/glider'
+
 export default class TabuleiroController {
   constructor() {
     this.tabuleiro = null
@@ -14,13 +16,12 @@ export default class TabuleiroController {
   }
 
   gerarTabuleiro(linhas, colunas) {
-    console.log('gerar', linhas, colunas)
     this.iniciarTabuleiro(linhas, colunas)
     this.resetClick()
   }
 
   playPauseClick() {
-    console.log('playPauseClick')
+    console.log('playPauseClick', JSON.stringify(this.tabuleiro))
     if(!this.pausado) {
       this._clearTimer()
       return
@@ -30,7 +31,6 @@ export default class TabuleiroController {
   }
 
   resetClick() {
-    console.log('resetClick')
     this._clearTimer()
     this.segundosTimer = 0
   }
@@ -45,6 +45,10 @@ export default class TabuleiroController {
 
   selecionarGlider() {
     console.log('selecionarGlider')
+    this.tabuleiro = new Tabuleiro().set(gliderPreset)
+    this.numeroLinhasTabuleiro = this.tabuleiro.numeroLinhas
+    this.numeroColunasTabuleiro = this.tabuleiro.numeroColunas
+    this.resetClick()
   }
 
   cellClick(linha, coluna) {
@@ -53,10 +57,9 @@ export default class TabuleiroController {
   }
 
   iniciarTabuleiro(linhas, colunas) {
-    console.log('iniciarTabuleiro')
     this.tabuleiro = new Tabuleiro().init(linhas, colunas)
-    this.numeroLinhasTabuleiro = linhas
-    this.numeroColunasTabuleiro = colunas
+    this.numeroLinhasTabuleiro = this.tabuleiro
+    this.numeroColunasTabuleiro = this.tabuleiro
   }
 
   _clearTimer() {
@@ -157,6 +160,32 @@ class Tabuleiro {
     }
 
     this.linhas = linhasTabuleiro
+
+    return this
+  }
+
+  set(preset) {
+    this.numeroLinhas = preset.numeroLinhas
+    this.numeroColunas = preset.numeroColunas
+    this.linhas = preset.linhas
+
+    // const linhasTabuleiro = []
+    // for (let linha = 0; linha < this.numeroLinhas; linha++) {
+    //   const novaLinha = []
+    //   for (let coluna = 0; coluna < this.numeroColunas; coluna++) {
+    //     novaLinha.push(false)
+    //   }
+    //   linhasTabuleiro.push(novaLinha)
+    // }
+
+    // // Copiar novo tabuleiro para velho
+    // for (let linha = 0; linha < this.numeroLinhas; linha++) {
+    //   for (let coluna = 0; coluna < this.numeroColunas; coluna++) {
+    //     linhasTabuleiro[linha][coluna] = preset.linhas[linha][coluna]
+    //   }
+    // }
+
+    // this.linhas = linhasTabuleiro
 
     return this
   }

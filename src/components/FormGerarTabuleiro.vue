@@ -39,8 +39,8 @@ export default {
 
   data() {
     return {
-      linhas: 12,
-      colunas: 12
+      linhas: 25,
+      colunas: 25
     }
   },
   

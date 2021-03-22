@@ -50,7 +50,6 @@ export default {
 
   data() {
     return {
-      linhasTabuleiro: null,
       tabuleiroController: null,
     }
   },
@@ -61,19 +60,23 @@ export default {
     },
     pausado() {
       return this.tabuleiroController?.pausado
+    },
+    tabuleiro() {
+      return this.tabuleiroController.tabuleiro
+    },
+    linhasTabuleiro() {
+      return this.tabuleiro.linhas
     }
   },
 
   created() {
     this.tabuleiroController = new TabuleiroController()
     this.tabuleiroController.gerarTabuleiro(25, 25)
-    this.linhasTabuleiro = this.tabuleiroController.tabuleiro.linhas
   },
 
   methods: {
     gerarTabuleiro(linhas, colunas) {
       this.tabuleiroController.gerarTabuleiro(linhas, colunas)
-      this.linhasTabuleiro = this.tabuleiroController.tabuleiro.linhas
     },
     playPauseClick() {
       this.tabuleiroController.playPauseClick()

@@ -48,7 +48,7 @@ export default {
       return this.larguraTabuleiro/numeroDeColunas
     },
     dimensoesTabuleiro() {
-      return `width: ${this.larguraTabuleiro}px; height: ${this.larguraTabuleiro}px;`
+      return `width: ${this.larguraTabuleiro}px; height: auto;`
     },
   }
 }
