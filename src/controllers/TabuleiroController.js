@@ -3,9 +3,6 @@ import { gliderPreset } from '@/presets/glider'
 export default class TabuleiroController {
   constructor() {
     this.tabuleiro = null
-    this.numeroLinhasTabuleiro = 0
-    this.numeroColunasTabuleiro = 0
-
     this.timer = null
     this.tick = 1000 // 1 segundo
     this.segundosTimer = 0
@@ -28,6 +25,10 @@ export default class TabuleiroController {
     }
 
     this._startTimer()
+  }
+
+  limparClick() {
+    this.tabuleiro.clear()
   }
 
   resetClick() {
@@ -168,26 +169,11 @@ class Tabuleiro {
     this.numeroLinhas = preset.numeroLinhas
     this.numeroColunas = preset.numeroColunas
     this.linhas = preset.linhas
-
-    // const linhasTabuleiro = []
-    // for (let linha = 0; linha < this.numeroLinhas; linha++) {
-    //   const novaLinha = []
-    //   for (let coluna = 0; coluna < this.numeroColunas; coluna++) {
-    //     novaLinha.push(false)
-    //   }
-    //   linhasTabuleiro.push(novaLinha)
-    // }
-
-    // // Copiar novo tabuleiro para velho
-    // for (let linha = 0; linha < this.numeroLinhas; linha++) {
-    //   for (let coluna = 0; coluna < this.numeroColunas; coluna++) {
-    //     linhasTabuleiro[linha][coluna] = preset.linhas[linha][coluna]
-    //   }
-    // }
-
-    // this.linhas = linhasTabuleiro
-
     return this
+  }
+
+  clear() {
+    this.init(this.numeroLinhas, this.numeroColunas)
   }
 
   toogleCell(linha, coluna) {

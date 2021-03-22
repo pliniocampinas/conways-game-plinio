@@ -26,6 +26,13 @@
       <DropdownItem @click="$emit('selecionar-glider')"> Glider </DropdownItem>
     </Dropdown>
 
+    <BotaoForm
+      @click="$emit('limpar-click')"
+      class="controles-tabuleiro-limpar controles-tabuleiro-item"
+    >
+      Limpar
+    </BotaoForm>
+
   </div>
 </template>
 
@@ -35,6 +42,7 @@ import BotaoPlayPause from '@/components/botoes/BotaoPlayPause.vue'
 import BotaoReset from '@/components/botoes/BotaoReset.vue'
 import Dropdown from '@/components/botoes/Dropdown.vue'
 import DropdownItem from '@/components/botoes/DropdownItem.vue'
+import BotaoForm from '@/components/botoes/BotaoForm.vue'
 
 export default {
   name: 'ControlesTabuleiro',
@@ -44,7 +52,8 @@ export default {
     BotaoPlayPause,
     BotaoReset,
     Dropdown,
-    DropdownItem
+    DropdownItem,
+    BotaoForm
   },
 
   props: {
@@ -71,5 +80,11 @@ export default {
 
 .controles-tabuleiros-dropdown {
   width: 85px;
+}
+
+.controles-tabuleiro-limpar {
+  vertical-align: top;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 </style>

@@ -22,6 +22,7 @@
           :pausado="pausado"
           :segundosTimer="segundosTimer"
           @play-pause-click="playPauseClick"
+          @limpar-click="limparClick"
           @reset-click="resetClick"
           @selecionar-loaf="selecionarLoaf"
           @selecionar-pulsar="selecionarPulsar"
@@ -95,6 +96,9 @@ export default {
     },
     cellClick(coordenadas) {
       this.tabuleiroController.cellClick(coordenadas.x, coordenadas.y)
+    },
+    limparClick() {
+      this.tabuleiroController.limparClick()
     },
   }
 }
