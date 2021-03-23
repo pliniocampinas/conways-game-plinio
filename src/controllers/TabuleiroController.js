@@ -1,4 +1,6 @@
 import { gliderPreset } from '@/presets/glider'
+import { loafPreset } from '@/presets/loaf'
+import { pulsarPreset } from '@/presets/pulsar'
 
 export default class TabuleiroController {
   constructor() {
@@ -18,7 +20,6 @@ export default class TabuleiroController {
   }
 
   playPauseClick() {
-    console.log('playPauseClick', JSON.stringify(this.tabuleiro))
     if(!this.pausado) {
       this._clearTimer()
       return
@@ -37,23 +38,21 @@ export default class TabuleiroController {
   }
 
   selecionarLoaf() {
-    console.log('selecionarLoaf')
+    this.tabuleiro = new Tabuleiro().set(loafPreset)
+    this.resetClick()
   }
 
   selecionarPulsar() {
-    console.log('selecionarPulsar')
+    this.tabuleiro = new Tabuleiro().set(pulsarPreset)
+    this.resetClick()
   }
 
   selecionarGlider() {
-    console.log('selecionarGlider')
     this.tabuleiro = new Tabuleiro().set(gliderPreset)
-    this.numeroLinhasTabuleiro = this.tabuleiro.numeroLinhas
-    this.numeroColunasTabuleiro = this.tabuleiro.numeroColunas
     this.resetClick()
   }
 
   cellClick(linha, coluna) {
-    console.log('cellClick', linha, coluna)
     this.tabuleiro.toogleCell(linha, coluna)
   }
 
@@ -76,67 +75,10 @@ export default class TabuleiroController {
 
   _nextTick() {
     // Calcular novo tabuleiro
-    const linhasTabuleiro = []
-
-    for (let linha = 0; linha < this.tabuleiro?.numeroLinhas; linha++) {
-      const novaLinha = []
-      for (let coluna = 0; coluna < this.tabuleiro?.numeroColunas; coluna++) {
-        novaLinha.push(this._proximoEstado(linha, coluna))
-      }
-      linhasTabuleiro.push(novaLinha)
-    }
-
-    // Copiar novo tabuleiro para velho
-    for (let linha = 0; linha < this.tabuleiro?.numeroLinhas; linha++) {
-      const novaLinha = []
-      for (let coluna = 0; coluna < this.tabuleiro?.numeroColunas; coluna++) {
-        this.tabuleiro.setCell(linha, coluna, linhasTabuleiro[linha][coluna])
-      }
-      linhasTabuleiro.push(novaLinha)
-    }
-
+    console.log('_nextTick2')
+    this.tabuleiro.next()
     this.segundosTimer++
   }
-
-  _proximoEstado(linha, coluna) {
-    const adjacentes = [
-      this.tabuleiro.getCell(linha+1, coluna+1),
-      this.tabuleiro.getCell(linha+1, coluna),
-      this.tabuleiro.getCell(linha+1, coluna-1),
-      this.tabuleiro.getCell(linha, coluna+1),
-      this.tabuleiro.getCell(linha, coluna-1),
-      this.tabuleiro.getCell(linha-1, coluna+1),
-      this.tabuleiro.getCell(linha-1, coluna),
-      this.tabuleiro.getCell(linha-1, coluna-1),
-    ]
-    const vivo = true
-    const morto = false
-
-    const estadoAtual = this.tabuleiro.getCell(linha, coluna)
-    const adjacentesVivos = adjacentes.filter(estado => estado === vivo)
-
-    if(estadoAtual == vivo) {
-      // Regra 1 underpopulation
-      if(adjacentesVivos.length < 2) {
-        return morto
-      }
-      // Regra 2 next generation
-      if(adjacentesVivos.length === 2 || adjacentesVivos.length === 3) {
-        return vivo
-      }
-      // Regra 3 overpopulation
-      if(adjacentesVivos.length> 3) {
-        return morto
-      }
-    }
-    // Regra 4 reproduction
-    if(adjacentesVivos.length == 3) {
-      return vivo
-    }
-
-    return morto
-  }
-
 }
 
 class Tabuleiro {
@@ -174,6 +116,65 @@ class Tabuleiro {
 
   clear() {
     this.init(this.numeroLinhas, this.numeroColunas)
+  }
+
+  next() {
+    // Calcular novo tabuleiro
+    const linhasTabuleiro = []
+
+    for (let linha = 0; linha < this.numeroLinhas; linha++) {
+      const novaLinha = []
+      for (let coluna = 0; coluna < this.numeroColunas; coluna++) {
+        novaLinha.push(this._nextCell(linha, coluna))
+      }
+      linhasTabuleiro.push(novaLinha)
+    }
+
+    // Copiar novo tabuleiro para velho
+    for (let linha = 0; linha < this.numeroLinhas; linha++) {
+      for (let coluna = 0; coluna < this.numeroColunas; coluna++) {
+        this.setCell(linha, coluna, linhasTabuleiro[linha][coluna])
+      }
+    }
+  }
+
+  _nextCell(linha, coluna) {
+    const adjacentes = [
+      this.getCell(linha+1, coluna+1),
+      this.getCell(linha+1, coluna),
+      this.getCell(linha+1, coluna-1),
+      this.getCell(linha, coluna+1),
+      this.getCell(linha, coluna-1),
+      this.getCell(linha-1, coluna+1),
+      this.getCell(linha-1, coluna),
+      this.getCell(linha-1, coluna-1),
+    ]
+    const vivo = true
+    const morto = false
+
+    const estadoAtual = this.getCell(linha, coluna)
+    const adjacentesVivos = adjacentes.filter(estado => estado === vivo)
+
+    if(estadoAtual == vivo) {
+      // Regra 1 underpopulation
+      if(adjacentesVivos.length < 2) {
+        return morto
+      }
+      // Regra 2 next generation
+      if(adjacentesVivos.length === 2 || adjacentesVivos.length === 3) {
+        return vivo
+      }
+      // Regra 3 overpopulation
+      if(adjacentesVivos.length> 3) {
+        return morto
+      }
+    }
+    // Regra 4 reproduction
+    if(adjacentesVivos.length == 3) {
+      return vivo
+    }
+
+    return morto
   }
 
   toogleCell(linha, coluna) {
