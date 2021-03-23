@@ -51,7 +51,7 @@ export default {
   background-color: #f9f9f9;
   min-width: 60px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  padding: 6px 12px;
+  padding: 2px 6px;
   z-index: 1;
 }
 

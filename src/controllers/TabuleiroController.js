@@ -75,7 +75,6 @@ export default class TabuleiroController {
 
   _nextTick() {
     // Calcular novo tabuleiro
-    console.log('_nextTick2')
     this.tabuleiro.next()
     this.segundosTimer++
   }
